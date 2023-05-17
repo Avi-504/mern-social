@@ -1,0 +1,29 @@
+version: "2"
+services:
+  web:
+    build:
+      context: .
+      args:
+        - NODE_ENV=development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - MONGO_USER=avi
+      - MONGO_PASSWORD=password
+      - MONGO_IP=mongo
+      - SESSION_SECRET=secret
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-db:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=avi
+      - MONGO_INITDB_ROOT_PASSWORD=password
